@@ -20,7 +20,7 @@ public class HashMap {
     }
 
     //generación de hash
-    private int generarHash(Striing clave) {
+    private int generarHash(String clave) {
         
         if (clave == null) return 0;
         clave = clave.toLowerCase().trim(); //para evitar problemas de mayúsculas o espacios
@@ -33,6 +33,55 @@ public class HashMap {
             suma += (long) ascii * peso; //multiplicar ascii por peso y acumular
         }
         return (int)((suma % tabla.length + tabla.length) % tabla.length);
+    }
+    // Método para insertar el Vinilo junto a su clave en el hashmap.
+    public void put(String clave, Vinilo valor) {
+    int indice = generarHash(clave);
+    Nodo actual = tabla[indice];
+
+    while (actual != null) {
+        if (actual.clave.equals(clave)) {
+            actual.valor = valor; // actualizar la clave si es necesario
+            return;
+        }
+        actual = actual.siguiente;
+    }
+
+    // Insertar el nuevo nodo en el head
+    Nodo nuevo = new Nodo(clave, valor);
+    nuevo.siguiente = tabla[indice];
+    tabla[indice] = nuevo;
+    }
+
+    // Getter de un Vinilo en específico.
+    public Vinilo get(String clave) {
+        int indice = generarHash(clave);
+        Nodo actual = tabla[indice];
+
+        while (actual != null) {
+            if (actual.clave.equals(clave)) return actual.valor;
+            actual = actual.siguiente;
+        }
+        return null;
+    }
+
+    // Mostrar toda la tabla de vinilos con sus claves.
+
+    public void mostrarTabla() {
+        for (int i = 0; i < tabla.length; i++) {
+            System.out.print("Índice [" + i + "]: ");
+            Nodo actual = tabla[i];
+            if (actual == null) {
+                System.out.println("vacío");
+            } else {
+                while (actual != null) {
+                    System.out.print("[" + actual.clave + " → " + actual.valor + "]");
+                    if (actual.siguiente != null) System.out.print(" → ");
+                    actual = actual.siguiente;
+                }
+                System.out.println();
+            }
+        }
     }
 
 }
