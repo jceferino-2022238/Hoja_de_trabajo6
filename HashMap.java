@@ -13,10 +13,9 @@ public class HashMap {
     }
 
     private Nodo[] tabla; //array principal
-    private int tamaño;
 
-    public HashMap(int tamaño) {
-        this.tamaño = tamaño;
-        tabla = new Nodo[tamaño];
+    public HashMap(int capacidad) {
+        if (capacidad <= 0) capacidad = 10;
+        tabla = new Nodo[capacidad];
     }
 }
